@@ -32,8 +32,7 @@ export const handleGoogleLogin = (cb: (result: authError)=> void) => {
   const url = new URL("https://accounts.google.com/o/oauth2/auth")
   // console.log(AUTH_CONFIG.google.client_id)
 
-  // url.searchParams.set("client_id", AUTH_CONFIG.google.client_id)
-  url.searchParams.set("client_id", "952218987959-g461t7p98j9q3sv4jsh5o9bob197arvb.apps.googleusercontent.com")
+  url.searchParams.set("client_id", AUTH_CONFIG.google.client_id)
   url.searchParams.set("response_type", "id_token")
   url.searchParams.set("access_type", "offline")
   url.searchParams.set(
@@ -71,52 +70,6 @@ export const handleGoogleLogin = (cb: (result: authError)=> void) => {
     }
   )
 }
-
-// export const handleGoogleLogin = (cb: (result: authError) => void) => {
-//   // Ask Supabase to start its Google OAuth flow
-//   const { data, error } = supabase.auth.signInWithOAuth({
-//     provider: "google",
-//     options: {
-//       redirectTo: chrome.identity.getRedirectURL(), // Extension redirect
-//     },
-//   });
-
-//   if (error || !data?.url) {
-//     console.error("Failed to start Supabase OAuth flow:", error);
-//     cb({ success: false, error });
-//     return;
-//   }
-
-//   // Open the Supabase OAuth URL in Chrome’s WebAuthFlow
-//   resizeAuthWindowOnCreated(550, 600);
-//   chrome.identity.launchWebAuthFlow(
-//     {
-//       url: data.url,
-//       interactive: true,
-//     },
-//     async (redirectedTo) => {
-//       if (chrome.runtime.lastError) {
-//         console.error("OAuth failed:", chrome.runtime.lastError);
-//         cb({ success: false, error: chrome.runtime.lastError });
-//         return;
-//       }
-
-//       // The user will be redirected back to your redirect URL,
-//       // and Supabase will automatically set the session via its redirect handler.
-//       console.log("Redirected to:", redirectedTo);
-
-//       // Retrieve the new session from Supabase
-//       const { data: session, error: sessionError } =
-//         await supabase.auth.getSession();
-
-//       cb({
-//         success: !sessionError,
-//         data: session,
-//         error: sessionError,
-//       });
-//     }
-//   );
-// };
 
 
 export const handleAppleLogin = () => {

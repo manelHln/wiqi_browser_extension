@@ -1,62 +1,52 @@
-import React, { useState } from 'react'
-import type { User } from '@supabase/supabase-js'
-import { Globe, Settings, Tag } from 'lucide-react'
-import CouponsTab from './CouponsTab'
-import FollowingsTab from './FollowingsTab'
-import SettingsTab from './SettingsTab'
+import type { User } from "@supabase/supabase-js"
+import { Home, Search, ShoppingCart, Bell, User as UserIcon } from "lucide-react"
+import React, { useState } from "react"
+
+import CategoryPage from "./category-page"
+import EarningsPage from "./earnings-page"
+import HomePage from "./home-page"
+import Navbar from "~components/Navbar"
+import Navigation from "./navigation"
+import NotificationsPage from "./notifications-page"
+import ProfilePage from "./profile-page"
 
 type Props = {
   user: User
 }
 
-type Tab = 'coupons' | 'following' | 'settings'
+type navItem = {
+  id: PageType,
+  icon: React.ElementType,
+  label: string
+}
+
+const navItems = [
+    { id: "home", icon: Home, label: "Home" },
+    { id: "category", icon: Search, label: "Browse" },
+    { id: "earnings", icon: ShoppingCart, label: "Earnings" },
+    { id: "notifications", icon: Bell, label: "Notifications" },
+    { id: "profile", icon: UserIcon, label: "Profile" },
+  ] as const satisfies navItem[]
+
+export type PageType = "home" | "category" | "earnings" | "notifications" | "profile"
 
 export default function LoggedIn({ user }: Props) {
-  const [activeTab, setActiveTab] = useState<Tab>('coupons')
+  const [currentPage, setCurrentPage] = useState<PageType>("home")
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Main Content Area */}
-      <div className="flex-1 overflow-y-auto my-16">
-        {activeTab === 'coupons' && <CouponsTab user={user} />}
-        {activeTab === 'following' && <FollowingsTab user={user} />}
-        {activeTab === 'settings' && <SettingsTab user={user} />}
-      </div>
-
-      {/* Bottom Tab Navigation */}
-      <div className="border-t border-gray-200 bg-white fixed w-full bottom-0">
-        <div className="flex">
-          <button
-            onClick={() => setActiveTab('coupons')}
-            className={`flex-1 flex flex-col items-center gap-1 py-3 transition-all duration-200 ${
-              activeTab === 'coupons'
-                ? 'text-purple-600 bg-purple-50'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-            }`}>
-            <Tag className="w-5 h-5" />
-            <span className="text-xs font-medium">Coupons</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('following')}
-            className={`flex-1 flex flex-col items-center gap-1 py-3 transition-all duration-200 ${
-              activeTab === 'following'
-                ? 'text-purple-600 bg-purple-50'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-            }`}>
-            <Globe className="w-5 h-5" />
-            <span className="text-xs font-medium">Suivis</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('settings')}
-            className={`flex-1 flex flex-col items-center gap-1 py-3 transition-all duration-200 ${
-              activeTab === 'settings'
-                ? 'text-purple-600 bg-purple-50'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-            }`}>
-            <Settings className="w-5 h-5" />
-            <span className="text-xs font-medium">Paramètres</span>
-          </button>
+    <div className="flex-1 overflow-hidden">
+      <Navbar isLoggedIn={true} userEmail={user?.email} setCurrentPage={setCurrentPage} />
+      <div className="flex flex-col h-full">
+        <div className="flex-1 overflow-y-auto my-16">
+          {currentPage === "home" && <HomePage />}
+          {currentPage === "category" && <CategoryPage />}
+          {currentPage === "earnings" && <EarningsPage />}
+          {currentPage === "notifications" && <NotificationsPage />}
+          {currentPage === "profile" && <ProfilePage user={user} />}
         </div>
+
+        {/* Bottom Tab Navigation */}
+        <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} navItems={navItems} />
       </div>
     </div>
   )

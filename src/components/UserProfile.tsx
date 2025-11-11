@@ -96,7 +96,7 @@ export default function UserProfile({ user }: Props) {
             <div className="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mx-auto mb-2">
               <TrendingUp className="w-5 h-5 text-green-600" />
             </div>
-            <p className="text-xl font-bold text-gray-900">€{stats?.total_savings?.toFixed(0) || '0'}</p>
+            <p className="text-xl font-bold text-gray-900">${stats?.total_savings?.toFixed(0) || '0'}</p>
             <p className="text-xs text-gray-500 mt-0.5">Économisé</p>
           </div>
 
@@ -190,7 +190,7 @@ export default function UserProfile({ user }: Props) {
               </div>
 
               <Button className="w-full bg-white text-gray-900 hover:bg-gray-100 font-medium py-2.5 rounded-xl shadow-sm">
-                Essayer Pro - 9.99€/mois
+                Essayer Pro - 9.99$/mois
               </Button>
             </div>
           </div>

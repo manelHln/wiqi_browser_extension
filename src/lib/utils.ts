@@ -1,9 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
-// import AUTH_CONFIG from "~configs/auth"
-// import { supabase } from "~core/supabase"
-
 export const loginUrl: string = chrome.runtime.getURL("tabs/login.html")
 export const registerUrl: string = chrome.runtime.getURL("tabs/register.html")
 

@@ -126,7 +126,7 @@ export default function FollowingsTab({ user }: Props) {
         <div className="flex items-start justify-between mb-3">
           <div>
             <p className="text-purple-100 text-xs font-medium mb-1">Économies totales</p>
-            <h2 className="text-3xl font-bold">€{totalSavings.toFixed(2)}</h2>
+            <h2 className="text-3xl font-bold">${totalSavings.toFixed(2)}</h2>
           </div>
           <div className="bg-white/20 rounded-lg p-2">
             <TrendingUp className="w-6 h-6" />
@@ -134,7 +134,7 @@ export default function FollowingsTab({ user }: Props) {
         </div>
         <div className="flex items-center gap-2 text-sm">
           <div className="bg-white/20 rounded-full px-2.5 py-0.5 text-xs font-medium">
-            +€{monthlySavings.toFixed(2)} ce mois-ci
+            +${monthlySavings.toFixed(2)} ce mois-ci
           </div>
         </div>
       </div>

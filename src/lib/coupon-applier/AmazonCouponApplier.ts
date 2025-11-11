@@ -64,6 +64,7 @@ export default class AmazonCouponApplier extends CouponApplier {
 
       // Step 5: Wait for the response (success or error)
       // Amazon can take a bit to process, so wait longer
+      // [ ] todo: Might need to change this and check for response based on a DOM element  
       await new Promise<void>((resolve) => setTimeout(resolve, 3000))
 
       // Step 6: Check for success or error
@@ -144,7 +145,6 @@ export default class AmazonCouponApplier extends CouponApplier {
       }
     }
 
-    // Wait a bit more and check again (sometimes Amazon is slow)
     await new Promise<void>((resolve) => setTimeout(resolve, 1500))
     
     const finalDiscount = await this.getDiscountAmount()
@@ -164,7 +164,6 @@ export default class AmazonCouponApplier extends CouponApplier {
   }
 
   async getDiscountAmount(): Promise<string | null> {
-    // Try multiple selectors as Amazon's structure can vary
     for (const selector of this.discountSelectors) {
       const elements = document.querySelectorAll<HTMLElement>(selector)
       
@@ -201,7 +200,6 @@ export default class AmazonCouponApplier extends CouponApplier {
 
   async removeCoupon(): Promise<boolean> {
     try {
-      // Amazon typically has a "Remove" link or button next to applied promotions
       const removeButton = document.querySelector<HTMLElement>(
         'a[href*="removePromotionCode"], button[name*="removePromotionCode"], ' +
         '[class*="remove-promotion"], [class*="remove-code"]'
@@ -213,12 +211,10 @@ export default class AmazonCouponApplier extends CouponApplier {
         return true
       }
 
-      // Alternative: Clear the input field and submit empty
       const input = await this.findCouponInput()
       if (input) {
         const currentValue = input.value
         
-        // Only try to clear if there's a value
         if (currentValue) {
           input.value = ""
           input.classList.remove("a-form-error")
@@ -226,7 +222,6 @@ export default class AmazonCouponApplier extends CouponApplier {
           input.dispatchEvent(new Event("input", { bubbles: true }))
           input.dispatchEvent(new Event("change", { bubbles: true }))
           
-          // Click apply with empty value to clear
           const applyButton = document.querySelector<HTMLInputElement>(
             this.applyButtonSelector
           )
@@ -245,7 +240,6 @@ export default class AmazonCouponApplier extends CouponApplier {
         'form[name*="payment"], form[action*="/gp/buy/"]'
       )
       if (form) {
-        // Some Amazon pages auto-refresh on form changes
         const event = new Event("change", { bubbles: true })
         form.dispatchEvent(event)
         await new Promise<void>((resolve) => setTimeout(resolve, 1000))

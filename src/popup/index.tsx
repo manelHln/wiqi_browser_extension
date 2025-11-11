@@ -1,13 +1,13 @@
-import { Toaster } from "react-hot-toast"
 import { useEffect, useState } from "react"
-import { MemoryRouter, Routes, Route } from 'react-router-dom'
+import { Toaster } from "react-hot-toast"
+import { MemoryRouter, Route, Routes } from "react-router-dom"
 
+import Loader from "~components/loader/Loader"
 import LoggedIn from "~components/LoggedIn"
 import LoginInvite from "~components/LoginInvite"
-import { supabase } from "~core/supabase"
-import Loader from "~components/loader/Loader"
 import Navbar from "~components/Navbar"
 import UserProfile from "~components/UserProfile"
+import { supabase } from "~core/supabase"
 
 import "~styles.css"
 
@@ -22,7 +22,7 @@ function PopupContent() {
     })
 
     const {
-      data: { subscription },
+      data: { subscription }
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
       setLoading(false)
@@ -41,31 +41,34 @@ function PopupContent() {
 
   return (
     <Routes>
-      <Route 
-        path="/" 
+      <Route
+        path="/"
         element={
           <div className="w-[380px] h-[600px]">
             {session ? (
               <>
-                <Navbar isLoggedIn={true} userEmail={session.user?.email} />
-                <div className="flex-1 overflow-hidden">
-                  <LoggedIn user={session.user} />
-                </div>
+                <LoggedIn user={session.user} />
               </>
             ) : (
-              <LoginInvite />
+              <>
+                <LoginInvite />
+              </>
             )}
           </div>
-        } 
+        }
       />
-      <Route 
-        path="/profile" 
+      <Route
+        path="/profile"
         element={
           <div className="w-[380px] h-[600px]">
-            <Navbar isLoggedIn={true} userEmail={session?.user?.email} />
+            <Navbar
+              isLoggedIn={true}
+              userEmail={session?.user?.email}
+              setCurrentPage={() => {}}
+            />
             <UserProfile user={session?.user} />
           </div>
-        } 
+        }
       />
     </Routes>
   )
