@@ -3,15 +3,12 @@
   "displayName": "Wiqi",
   "version": "0.0.1",
   "description": "Wiqi shopping assistant",
-  "author": "Plasmo Corp. <foss@plasmo.com>",
+  "author": "Emmanuel Holonou <holonouemmanuel0@gmail.com>",
   "scripts": {
-    "start": "next start",
     "dev": "run-p dev:*",
     "dev:plasmo": "plasmo dev",
-    "dev:next": "next dev --port 1947",
     "build": "run-p build:*",
-    "build:plasmo": "plasmo build",
-    "build:next": "next build"
+    "build:plasmo": "plasmo build"
   },
   "dependencies": {
     "@plasmohq/storage": "^1.15.0",
@@ -24,7 +21,6 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.544.0",
-    "next": "15.1.6",
     "plasmo": "0.90.5",
     "react": "19.0.0",
     "react-dom": "19.0.0",
